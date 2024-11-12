@@ -90,7 +90,7 @@ async function eliminarProducto(event) {
 
     try {
         // Hacer la solicitud DELETE a la API
-        const response = await fetch(`https://retoolapi.dev/r46XHt/productos/${id}`, {
+        const response = await fetch(`https://api-generator.retool.com/r46XHt/productos/${id}`, {
             method: "DELETE"
         });
 
