@@ -1,0 +1,66 @@
+/* Universidad de El Salvador
+Nombre: Karen Stefany Sánchez Pocasangre
+Carnet: SP21013
+Grupo: 7
+*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9fcff;
+    color: #0d0c0c;
+    margin: 0;
+    padding: 20 px;
+}
+h1, h3, strong {
+    color: #007bff;
+}
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: #0056b3;
+}
+img {
+    inline-size: 100%;
+    max-inline-size: 150px;
+    block-size: auto;
+}
+table {
+    inline-size: 95%;
+    margin: auto;
+    border-collapse: collapse;
+    margin-block-start: 10px;
+    background-color: rgb(228, 241, 255); 
+}
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #007bff;
+}
+th {
+    background-color: #007bff;
+    color: white;
+}
+th#price {
+    cursor: pointer; 
+}
+input[type="checkbox"] {
+    margin-inline-end: 5px;
+}
+input#c1:checked ~ table tbody tr.c1, 
+input#c2:checked ~ table tbody tr.c2, 
+input#c3:checked ~ table tbody tr.c3, 
+input#c4:checked ~ table tbody tr.c4 {
+    display: table-row; 
+}
+input#c1:not(checked) ~ table tbody tr.c1, 
+input#c2:not(checked) ~ table tbody tr.c2, 
+input#c3:not(checked) ~ table tbody tr.c3, 
+input#c4:not(checked) ~ table tbody tr.c4 {
+    display: none; 
+}
