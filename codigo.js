@@ -60,7 +60,14 @@ function listarProductos(productos) {
 function obtenerProductos() {
 	fetch('https://retoolapi.dev/r46XHt/productos')
 		.then(res => res.json())
-		.then(data => { productos = data; listarProductos(data) })
+		.then(data => { 
+			productos = data; 
+			productos.forEach(
+				function(producto){
+					producto.price=parseFloat(producto.price)
+				}
+			);
+			listarProductos(data) })
 }
 
 function ordenarDesc(p_array_json, p_key) {
