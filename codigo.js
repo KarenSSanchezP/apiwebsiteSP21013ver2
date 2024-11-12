@@ -27,7 +27,14 @@ function listarProductos(productos) {
 	var tbody = document.getElementById("tbody"), nfila = 0;
 	tbody.innerHTML = "";
 	var catcode;
-	for (i = 0; i < num; i++) tbody.innerHTML += fila;
+	for (i = 0; i < num; i++) {
+		tbody.innerHTML += fila;
+		// Agregar botón de eliminación en cada fila
+		const eliminarBtn = document.createElement("button");
+		eliminarBtn.innerText = "Eliminar";
+		eliminarBtn.onclick = () => eliminarProducto(productos[nfila].id);
+		tbody.rows[nfila].appendChild(eliminarBtn);
+	}
 	var tr;
 	ids = document.getElementsByClassName("id");
 	titles = document.getElementsByClassName("title");
@@ -68,6 +75,59 @@ function obtenerProductos() {
 				}
 			);
 			listarProductos(data) })
+}
+
+// Agregar producto
+async function agregarProducto(event) {
+	event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+
+	const nuevoProducto = {
+		title: document.getElementById("nombre").value,
+		price: parseFloat(document.getElementById("precio").value),
+		description: document.getElementById("descripcion").value,
+		image: document.getElementById("imagen").value,
+		category: document.getElementById("categoria").value
+	};
+
+	try {
+		const response = await fetch("https://retoolapi.dev/r46XHt/productos", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(nuevoProducto)
+		});
+		const data = await response.json();
+		console.log("Producto agregado:", data);
+
+		// Limpiar el formulario
+		document.getElementById("nombre").value = "";
+		document.getElementById("precio").value = "";
+		document.getElementById("descripcion").value = "";
+		document.getElementById("imagen").value = "";
+		document.getElementById("categoria").value = "";
+
+		// Actualizar la lista de productos
+		obtenerProductos();
+	} catch (error) {
+		console.error("Error al agregar el producto:", error);
+	}
+}
+
+// Eliminar producto
+async function eliminarProducto(id) {
+	try {
+		const response = await fetch(`https://retoolapi.dev/r46XHt/productos/${id}`, {
+			method: "DELETE"
+		});
+
+		if (response.ok) {
+			console.log(`Producto con ID ${id} eliminado.`);
+			obtenerProductos();
+		} else {
+			console.error("Error al eliminar el producto:", response.statusText);
+		}
+	} catch (error) {
+		console.error("Error al eliminar el producto:", error);
+	}
 }
 
 function ordenarDesc(p_array_json, p_key) {
