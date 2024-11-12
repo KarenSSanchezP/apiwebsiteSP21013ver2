@@ -80,7 +80,7 @@ function obtenerProductos() {
 }
 
 // Eliminar producto
-async function eliminarProducto(event) {
+function eliminarProducto(event) {
     const id = event.target.getAttribute("data-id"); // Obtener el ID del producto desde el atributo 'data-id'
     
     if (!id) {
@@ -88,12 +88,11 @@ async function eliminarProducto(event) {
         return;
     }
 
-    try {
-        // Hacer la solicitud DELETE a la API
-        const response = await fetch(`https://api-generator.retool.com/r46XHt/productos/${id}`, {
-            method: "DELETE"
-        });
-
+    // Hacer la solicitud DELETE a la API
+    fetch(`https://api-generator.retool.com/r46XHt/productos/${id}`, {
+        method: "DELETE"
+    })
+    .then(response => {
         // Verificamos si la respuesta fue exitosa
         if (response.ok) {
             console.log(`Producto con ID ${id} eliminado.`);
@@ -103,11 +102,13 @@ async function eliminarProducto(event) {
             console.error("Error al eliminar el producto:", response.statusText);
             alert("Hubo un problema al eliminar el producto.");
         }
-    } catch (error) {
+    })
+    .catch(error => {
         console.error("Error al eliminar el producto:", error);
         alert("Error en la conexión, no se pudo eliminar el producto.");
-    }
+    });
 }
+
 
 // Agregar producto
 function agregarProducto() {
