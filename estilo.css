@@ -25,6 +25,41 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+/* Estilo del formulario */
+#formulario-producto {
+    display: flex;
+    flex-direction: column;
+    max-inline-size: 400px;
+    margin-block-end: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+#formulario-producto label {
+    margin-block-start: 10px;
+    font-weight: bold;
+    color: #333;
+}
+#formulario-producto input,
+#formulario-producto select,
+#formulario-producto button {
+    padding: 8px;
+    margin-block-start: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+#formulario-producto button {
+    margin-block-start: 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+#formulario-producto button:hover {
+    background-color: #0056b3;
+}
+
 img {
     inline-size: 100%;
     max-inline-size: 150px;

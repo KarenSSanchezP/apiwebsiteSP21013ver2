@@ -94,38 +94,53 @@ function obtenerProductos() {
 }
 
 // Agregar producto
-async function agregarProducto(event) {
-	event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+function agregarProducto() {
+    // Obtener valores del formulario
+    const titulo = document.getElementById("titulo").value;
+    const precio = parseFloat(document.getElementById("precio").value);
+    const descripcion = document.getElementById("descripcion").value;
+    const imagen = document.getElementById("imagen").value;
+    const categoria = document.getElementById("categoria").value;
 
-	const nuevoProducto = {
-		title: document.getElementById("nombre").value,
-		price: parseFloat(document.getElementById("precio").value),
-		description: document.getElementById("descripcion").value,
-		image: document.getElementById("imagen").value,
-		category: document.getElementById("categoria").value
-	};
+    // Verificar que los campos no estén vacíos
+    if (!titulo || isNaN(precio) || !descripcion || !imagen || !categoria) {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
 
-	try {
-		const response = await fetch("https://retoolapi.dev/r46XHt/productos", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(nuevoProducto)
-		});
-		const data = await response.json();
-		console.log("Producto agregado:", data);
+    // Crear un nuevo producto (sin id)
+    const nuevoProducto = {
+        title: titulo,
+        price: precio,
+        description: descripcion,
+        image: imagen,
+        category: categoria
+    };
 
-		// Limpiar el formulario
-		document.getElementById("nombre").value = "";
-		document.getElementById("precio").value = "";
-		document.getElementById("descripcion").value = "";
-		document.getElementById("imagen").value = "";
-		document.getElementById("categoria").value = "";
-
-		// Actualizar la lista de productos
-		obtenerProductos();
-	} catch (error) {
-		console.error("Error al agregar el producto:", error);
-	}
+    // Enviar el producto a la API usando POST
+    fetch("https://retoolapi.dev/r46XHt/productos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(nuevoProducto)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error al agregar el producto");
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Agregar el producto a la lista local de productos
+        productos.push(data); // data contiene el producto con el ID asignado por la API
+        listarProductos(productos); // Actualizar el listado de productos en la tabla
+        alert("Producto agregado exitosamente.");
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Hubo un problema al agregar el producto.");
+    });
 }
 
 // Eliminar producto

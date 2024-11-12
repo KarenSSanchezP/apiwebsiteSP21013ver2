@@ -23,22 +23,30 @@ Grupo: 7
 	<p><button onclick="obtenerProductos();this.style.display='none';">Obtener Productos</button></p>
 	
 	<!-- Formulario para agregar producto -->
-	<div id="formularioProducto">
-		<h3>Agregar Producto</h3>
-		<form onsubmit="agregarProducto(event)">
-			<label for="titulo">Titulo:</label>
-			<input type="text" id="titulo" required><br>
-			<label for="precio">Precio:</label>
-			<input type="number" id="precio" step="0.01" required><br>
-			<label for="descripcion">Descripción:</label>
-			<input type="text" id="descripcion" required><br>
-			<label for="imagen">Imagen (URL):</label>
-			<input type="text" id="imagen" required><br>
-			<label for="categoria">Categoría:</label>
-			<input type="text" id="categoria" required><br>
-			<button type="submit">Agregar Producto</button>
-		</form>
+	<div id="formulario-producto">
+		<label for="titulo">Título:</label>
+		<input type="text" id="titulo" name="titulo">
+	
+		<label for="precio">Precio:</label>
+		<input type="number" id="precio" name="precio">
+	
+		<label for="descripcion">Descripción:</label>
+		<input type="text" id="descripcion" name="descripcion">
+	
+		<label for="imagen">Imagen (URL):</label>
+		<input type="text" id="imagen" name="imagen">
+	
+		<label for="categoria">Categoría:</label>
+		<select id="categoria" name="categoria">
+			<option value="electronicos">Electrónicos</option>
+			<option value="joyeria">Joyería</option>
+			<option value="ropa-caballero">Ropa Caballero</option>
+			<option value="ropa-dama">Ropa Dama</option>
+		</select>
+	
+		<button type="button" onclick="agregarProducto()">Agregar Producto</button>
 	</div>
+	
 
 	<div id="listado" style="display:none;">
 		<form name="filtroprods" id="filtroprods">
@@ -52,7 +60,7 @@ Grupo: 7
 			<table id="tabla" border="1">
 				<thead>
 				<tr><th>ID</th><th>Foto</th><th  id="price">Price</th>
-				<th>Title</th><th>Description</th><th>Category</th></tr>
+				<th>Title</th><th>Description</th><th>Category</th><th>Acciones</th></tr>
 				</thead>
 				<tbody id="tbody"></tbody>
 			</table>
