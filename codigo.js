@@ -57,10 +57,12 @@ function listarProductos(productos) {
         fotos[nfila].innerHTML = "<img src='" + productos[nfila].image + "'>";
         fotos[nfila].firstChild.setAttribute("onclick", "window.open('" + productos[nfila].image + "');");
 
-        // Añadir botón eliminar en cada fila
+        // Crear y añadir el botón eliminar
         var eliminarBtn = document.createElement("button");
         eliminarBtn.innerText = "Eliminar";
-        eliminarBtn.onclick = function () { eliminarProducto(productos[nfila].id); };
+        eliminarBtn.setAttribute("data-id", productos[nfila].id); // Asignar el ID del producto
+        eliminarBtn.classList.add("eliminar-btn"); // Para estilos (opcional)
+        eliminarBtn.onclick = eliminarProducto; // Asociar la función eliminarProducto con el botón
         acciones[nfila].appendChild(eliminarBtn);
     }
 }
@@ -78,7 +80,14 @@ function obtenerProductos() {
 }
 
 // Eliminar producto
-async function eliminarProducto(id) {
+async function eliminarProducto(event) {
+    const id = event.target.getAttribute("data-id"); // Obtener el ID del producto desde el atributo 'data-id'
+    
+    if (!id) {
+        alert("ID del producto no encontrado.");
+        return;
+    }
+
     try {
         // Hacer la solicitud DELETE a la API
         const response = await fetch(`https://retoolapi.dev/r46XHt/productos/${id}`, {
@@ -88,7 +97,6 @@ async function eliminarProducto(id) {
         // Verificamos si la respuesta fue exitosa
         if (response.ok) {
             console.log(`Producto con ID ${id} eliminado.`);
-            
             // Recargar los productos desde la API
             obtenerProductos();
         } else {
