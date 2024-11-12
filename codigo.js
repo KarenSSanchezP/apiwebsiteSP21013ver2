@@ -19,49 +19,65 @@ var orden = 0;
 
 
 function listarProductos(productos) {
-	var precio = document.getElementById("price");
-	precio.setAttribute("onclick", "orden*=-1;listarProductos(productos);");
-	var num = productos.length;
-	var listado = document.getElementById("listado");
-	var ids, titles, prices, descriptions, categories, fotos;
-	var tbody = document.getElementById("tbody"), nfila = 0;
-	tbody.innerHTML = "";
-	var catcode;
-	for (i = 0; i < num; i++) {
-		tbody.innerHTML += fila;
-		// Agregar botón de eliminación en cada fila
-		const eliminarBtn = document.createElement("button");
-		eliminarBtn.innerText = "Eliminar";
-		eliminarBtn.onclick = () => eliminarProducto(productos[nfila].id);
-		tbody.rows[nfila].appendChild(eliminarBtn);
-	}
-	var tr;
-	ids = document.getElementsByClassName("id");
-	titles = document.getElementsByClassName("title");
-	descriptions = document.getElementsByClassName("description");
-	categories = document.getElementsByClassName("category");
-	fotos = document.getElementsByClassName("foto");
-	prices = document.getElementsByClassName("price");
-	if (orden === 0) { orden = -1; precio.innerHTML = "Precio" }
-	else
-		if (orden == 1) { ordenarAsc(productos, "price"); precio.innerHTML = "Precio A"; precio.style.color = "darkgreen" }
-		else
-			if (orden == -1) { ordenarDesc(productos, "price"); precio.innerHTML = "Precio D"; precio.style.color = "blue" }
+    var precio = document.getElementById("price");
+    precio.setAttribute("onclick", "orden*=-1;listarProductos(productos);");
+    var num = productos.length;
+    var listado = document.getElementById("listado");
+    var ids, titles, prices, descriptions, categories, fotos;
+    var tbody = document.getElementById("tbody");
+    tbody.innerHTML = ""; // Limpia el contenido previo de la tabla
 
+    if (orden === 0) { 
+        orden = -1; 
+        precio.innerHTML = "Precio"; 
+    } else if (orden == 1) { 
+        ordenarAsc(productos, "price"); 
+        precio.innerHTML = "Precio A"; 
+        precio.style.color = "darkgreen"; 
+    } else if (orden == -1) { 
+        ordenarDesc(productos, "price"); 
+        precio.innerHTML = "Precio D"; 
+        precio.style.color = "blue"; 
+    }
 
-	listado.style.display = "block";
-	for (nfila = 0; nfila < num; nfila++) {
-		ids[nfila].innerHTML = productos[nfila].id;
-		titles[nfila].innerHTML = productos[nfila].title;
-		descriptions[nfila].innerHTML = productos[nfila].description;
-		categories[nfila].innerHTML = productos[nfila].category;
-		catcode = codigoCat(productos[nfila].category);
-		tr = categories[nfila].parentElement;
-		tr.setAttribute("class", catcode);
-		prices[nfila].innerHTML = "$" + productos[nfila].price;
-		fotos[nfila].innerHTML = "<img src='" + productos[nfila].image + "'>";
-		fotos[nfila].firstChild.setAttribute("onclick", "window.open('" + productos[nfila].image + "');");
-	}
+    // Crear filas para cada producto
+    productos.forEach((producto, nfila) => {
+        const fila = tbody.insertRow(); // Crear una nueva fila
+
+        // Agregar celdas para los datos del producto
+        const celdaId = fila.insertCell();
+        celdaId.className = "id";
+        celdaId.textContent = producto.id;
+
+        const celdaFoto = fila.insertCell();
+        celdaFoto.className = "foto";
+        celdaFoto.innerHTML = `<img src="${producto.image}" onclick="window.open('${producto.image}');" style="width:50px;height:50px;">`;
+
+        const celdaPrecio = fila.insertCell();
+        celdaPrecio.className = "price";
+        celdaPrecio.textContent = `$${producto.price}`;
+
+        const celdaTitle = fila.insertCell();
+        celdaTitle.className = "title";
+        celdaTitle.textContent = producto.title;
+
+        const celdaDescription = fila.insertCell();
+        celdaDescription.className = "description";
+        celdaDescription.textContent = producto.description;
+
+        const celdaCategory = fila.insertCell();
+        celdaCategory.className = "category";
+        celdaCategory.textContent = producto.category;
+
+        // Agregar una celda para el botón "Eliminar"
+        const celdaEliminar = fila.insertCell();
+        const eliminarBtn = document.createElement("button");
+        eliminarBtn.innerText = "Eliminar";
+        eliminarBtn.onclick = () => eliminarProducto(producto.id);
+        celdaEliminar.appendChild(eliminarBtn);
+    });
+
+    listado.style.display = "block"; // Muestra el listado de productos
 }
 
 function obtenerProductos() {
